@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>5分ドッジボール自宅トレーニング</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ 初回登録 ============ -->
+<div id="screen-onboarding" class="screen active">
+  <div class="onboard-hero">
+    <div class="emoji">🤾</div>
+    <h1>5分ドッジボール<br>自宅トレーニング</h1>
+    <p>毎日たった5分、自宅でできるトレーニングです。<br>まずはお名前(ニックネームでOK)を教えてください。</p>
+  </div>
+  <form id="onboarding-form">
+    <input id="onboarding-name" type="text" placeholder="例: たろう" maxlength="12" required>
+    <button type="submit" class="primary-btn">はじめる</button>
+  </form>
+</div>
+
+<!-- ============ ホーム ============ -->
+<div id="screen-home" class="screen">
+  <div class="app-header">
+    <div>
+      <div class="app-logo">5分ドッジボール自宅トレーニング</div>
+      <div style="font-weight:700;color:var(--text-soft);font-size:13px;" id="home-user-name">選手</div>
+    </div>
+    <button class="icon-btn" id="btn-open-user-select" title="利用者を切り替える">👤</button>
+  </div>
+
+  <div class="home-main-btn">
+    <button id="btn-start-training">5分やる<span class="sub">タップしてスタート</span></button>
+  </div>
+
+  <button class="secondary-btn" id="btn-repeat-last" style="margin-bottom:16px;">前回と同じ条件で5分</button>
+
+  <div class="stat-row">
+    <div class="stat-box"><span class="num" id="home-week-count">0</span><span class="label">今週の回数</span></div>
+  </div>
+  <p style="margin-top:12px;font-size:13px;" id="home-last-record">まだ記録がありません</p>
+  <p style="font-size:13px;" id="home-family-count">家族全体のトレーニング回数: 0回</p>
+
+  <div class="menu-list-nav">
+    <button class="nav-row" id="btn-open-history">📅 記録をみる <span>›</span></button>
+    <button class="nav-row" id="btn-open-exercise-list">📖 種目一覧 <span>›</span></button>
+    <button class="nav-row" id="btn-open-settings">⚙️ 設定 <span>›</span></button>
+  </div>
+</div>
+
+<!-- ============ 利用者選択 ============ -->
+<div id="screen-user-select" class="screen">
+  <div class="app-header"><h2>だれがトレーニングする？</h2><button class="icon-btn btn-back-home">✕</button></div>
+  <div id="user-select-list"></div>
+  <button class="secondary-btn" id="btn-add-family">＋ 家族を追加する</button>
+</div>
+
+<!-- ============ 条件設定 ============ -->
+<div id="screen-condition" class="screen">
+  <div class="app-header"><h2>今日の条件</h2><button class="icon-btn btn-back-home">✕</button></div>
+
+  <div class="field-label">目的(複数選択OK)</div>
+  <div class="option-group" id="goal-options">
+    <div class="option-pill" data-value="stamina">スタミナ</div>
+    <div class="option-pill" data-value="defense">ディフェンス</div>
+    <div class="option-pill" data-value="cutman">カットマン</div>
+    <div class="option-pill" data-value="speed">球速アップ</div>
+    <div class="option-pill" data-value="attack">アタック</div>
+    <div class="option-pill" data-value="agility">敏捷性</div>
+    <div class="option-pill" data-value="power">パワー</div>
+    <div class="option-pill" data-value="core">体幹</div>
+    <div class="option-pill selected" data-value="omakase">おまかせ</div>
+  </div>
+
+  <div class="field-label">難易度</div>
+  <div class="option-group" id="difficulty-options">
+    <div class="option-pill selected" data-value="beginner">初級</div>
+    <div class="option-pill" data-value="intermediate">中級</div>
+    <div class="option-pill" data-value="advanced">上級</div>
+  </div>
+
+  <div class="field-label">使用スペース</div>
+  <div class="option-group" id="space-options">
+    <div class="option-pill" data-value="point">その場だけ</div>
+    <div class="option-pill selected" data-value="small">1畳程度</div>
+    <div class="option-pill" data-value="medium">2畳程度</div>
+    <div class="option-pill" data-value="wide">広め</div>
+  </div>
+
+  <div class="field-label">音・衝撃</div>
+  <div class="option-group" id="noise-options">
+    <div class="option-pill" data-value="quiet">静音重視</div>
+    <div class="option-pill selected" data-value="some">少しならOK</div>
+    <div class="option-pill" data-value="any">気にしない</div>
+  </div>
+
+  <button class="primary-btn" id="btn-condition-next">メニューをつくる</button>
+</div>
+
+<!-- ============ メニュー確認 ============ -->
+<div id="screen-menu-preview" class="screen">
+  <div class="app-header"><h2>今日のメニュー</h2><button class="icon-btn btn-back-home">✕</button></div>
+  <ul id="menu-preview-list"></ul>
+  <div class="button-row">
+    <button class="secondary-btn" id="btn-regenerate-menu">作り直す</button>
+    <button class="primary-btn" id="btn-menu-start">スタート</button>
+  </div>
+</div>
+
+<!-- ============ 1種目目 説明画面 ============ -->
+<div id="screen-exercise-intro" class="screen">
+  <div class="intro-card">
+    <span class="intro-badge">1種目目</span>
+    <img id="intro-exercise-img" src="images/placeholder.svg" alt="">
+    <div id="intro-exercise-name">種目名</div>
+    <div id="intro-exercise-desc">説明文</div>
+  </div>
+  <p class="intro-ready-label">準備ができたらスタート</p>
+  <button class="primary-btn" id="btn-intro-start" style="max-width:320px;">スタート</button>
+</div>
+
+<!-- ============ カウントダウン ============ -->
+<div id="screen-countdown" class="screen">
+  <div id="countdown-number">3</div>
+</div>
+
+<!-- ============ トレーニング ============ -->
+<div id="screen-training" class="screen">
+  <div id="training-screen-mode" class="training-screen work">
+    <div class="training-topbar">
+      <span class="training-index" id="training-index">1 / 10</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="training-progress-bar" style="width:0%"></div></div>
+
+    <div class="training-visual">
+      <img id="training-exercise-img" src="images/placeholder.svg" alt="">
+      <div id="training-exercise-name">種目名</div>
+      <div id="training-hint">ヒント</div>
+      <div id="training-timer">20</div>
+      <div id="training-next-label">次: —</div>
+    </div>
+
+    <div class="training-bottombar">
+      <button class="secondary-btn training-pause-btn" id="btn-pause">Ⅱ 一時停止</button>
+      <button class="secondary-btn" id="btn-quit-confirm-open">トレーニングをやめる</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="pause-overlay">
+  <div class="overlay-card">
+    <h2>一時停止中</h2>
+    <p id="pause-context-label">準備ができたら再開しよう</p>
+    <img id="pause-exercise-img" class="pause-exercise-img" src="images/placeholder.svg" alt="">
+    <div id="pause-exercise-name" class="pause-exercise-name">種目名</div>
+    <div id="pause-exercise-desc" class="pause-exercise-desc">説明文</div>
+    <div class="button-row">
+      <button class="secondary-btn" id="btn-quit-confirm-open-2" onclick="document.getElementById('btn-quit-confirm-open').click()">トレーニングを終了</button>
+      <button class="primary-btn" id="btn-resume">▶ 再開</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay image-zoom-overlay" id="image-zoom-modal">
+  <div class="image-zoom-card">
+    <div class="image-zoom-name" id="image-zoom-name">種目名</div>
+    <img id="image-zoom-img" src="images/placeholder.svg" alt="">
+    <button class="image-zoom-close" id="btn-image-zoom-close" aria-label="閉じる">✕ 閉じる</button>
+  </div>
+</div>
+
+<div class="overlay" id="quit-confirm">
+  <div class="overlay-card">
+    <h2>やめますか？</h2>
+    <p>ここまでの記録は保存されません。</p>
+    <div class="button-row">
+      <button class="secondary-btn" id="btn-quit-cancel">つづける</button>
+      <button class="primary-btn" id="btn-quit-yes">やめる</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 結果 ============ -->
+<div id="screen-result" class="screen">
+  <div class="result-badge">
+    <div class="big-check">🎉</div>
+    <h2>トレーニング終了！</h2>
+    <p><span id="result-user-name">選手</span>さん、おつかれさまでした</p>
+  </div>
+  <div class="card">
+    <p style="margin-bottom:4px;"><strong>時間:</strong> 5:00</p>
+    <p style="margin-bottom:4px;"><strong>目的:</strong> <span id="result-goal"></span></p>
+    <p><strong>難易度:</strong> <span id="result-difficulty"></span></p>
+  </div>
+  <div class="field-label">今日の10種目</div>
+  <ul id="result-exercise-list"></ul>
+  <button class="primary-btn" id="btn-result-home" style="margin-top:18px;">ホームへ戻る</button>
+</div>
+
+<!-- ============ 履歴 ============ -->
+<div id="screen-history" class="screen">
+  <div class="app-header"><h2>記録</h2><button class="icon-btn btn-back-home">✕</button></div>
+  <div id="history-list"></div>
+</div>
+
+<!-- ============ 種目一覧 ============ -->
+<div id="screen-exercise-list" class="screen">
+  <div class="app-header"><h2>種目一覧</h2><button class="icon-btn btn-back-home">✕</button></div>
+  <div class="exercise-grid" id="exercise-list-grid"></div>
+</div>
+
+<!-- ============ 種目詳細 ============ -->
+<div id="screen-exercise-detail" class="screen">
+  <div class="app-header"><h2 id="detail-name">種目名</h2><button class="icon-btn btn-back-exercise-list">✕</button></div>
+  <img id="detail-img" src="images/placeholder.svg" alt="">
+  <span class="detail-tag" id="detail-category">カテゴリー</span>
+  <p id="detail-description"></p>
+  <div class="field-label">ポイント</div>
+  <ul id="detail-points"></ul>
+</div>
+
+<!-- ============ 設定 ============ -->
+<div id="screen-settings" class="screen">
+  <div class="app-header"><h2>設定</h2><button class="icon-btn btn-back-home">✕</button></div>
+  <div class="setting-row">
+    <span>音声ガイド</span>
+    <label class="switch"><input type="checkbox" id="settings-voice"><span class="slider"></span></label>
+  </div>
+  <div class="setting-row">
+    <span>効果音</span>
+    <label class="switch"><input type="checkbox" id="settings-sound"><span class="slider"></span></label>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

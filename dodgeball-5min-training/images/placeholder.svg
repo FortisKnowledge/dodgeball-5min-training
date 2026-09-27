@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 375">
+  <rect width="500" height="375" fill="#EDEFF3"/>
+  <rect x="1" y="1" width="498" height="373" fill="none" stroke="#D7DBE3" stroke-width="2" stroke-dasharray="8 8"/>
+  <circle cx="250" cy="150" r="46" fill="none" stroke="#AAB2C0" stroke-width="6"/>
+  <path d="M250 196 L250 250 M215 220 L250 240 L285 220 M225 320 L250 250 L275 320" fill="none" stroke="#AAB2C0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="250" y="352" text-anchor="middle" font-family="sans-serif" font-size="20" fill="#8890A0">イラスト準備中</text>
+</svg>
