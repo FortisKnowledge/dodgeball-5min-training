@@ -414,27 +414,52 @@ function startMenuGeneration() {
 
 document.getElementById("btn-regenerate-menu").addEventListener("click", startMenuGeneration);
 
+function escapeHtmlAttr(str) {
+  return String(str).replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+}
+
 function renderMenuPreview() {
   const list = document.getElementById("menu-preview-list");
   list.innerHTML = "";
   currentMenu.forEach((entry, i) => {
     const { ex, label } = menuEntryLabel(entry);
+    const hasVideo = !!ex.video;
     const li = document.createElement("li");
-    li.className = "menu-item";
+    li.className = "menu-item" + (hasVideo ? " has-video" : "");
     li.innerHTML = `
-      <button type="button" class="menu-item-thumb-btn" aria-label="${label}のイラストを拡大">
-        <img class="menu-item-thumb" src="${ex.image || "images/placeholder.svg"}" alt="">
-        <span class="menu-item-thumb-zoom">🔍</span>
-      </button>
-      <div class="menu-item-info">
-        <span class="menu-item-num">${i + 1}</span>
-        <span class="menu-item-name">${label}</span>
+      <div class="menu-item-row">
+        <button type="button" class="menu-item-thumb-btn" aria-label="${label}のイラストを拡大">
+          <img class="menu-item-thumb" src="${ex.image || "images/placeholder.svg"}" alt="">
+          <span class="menu-item-thumb-zoom">🔍</span>
+        </button>
+        <div class="menu-item-info">
+          <span class="menu-item-num">${i + 1}</span>
+          <span class="menu-item-name">${label}</span>
+        </div>
+        <span class="menu-item-sec">20秒</span>
       </div>
-      <span class="menu-item-sec">20秒</span>
+      ${hasVideo ? `<a class="menu-item-video-link" href="${escapeHtmlAttr(ex.video)}" target="_blank" rel="noopener noreferrer">▶ 参考動画を見る</a>` : ""}
     `;
-    li.querySelector(".menu-item-thumb-btn").addEventListener("click", () => {
+
+    // イラスト部分：タップで拡大表示。カード全体の動画リンクには伝播させない。
+    li.querySelector(".menu-item-thumb-btn").addEventListener("click", (e) => {
+      e.stopPropagation();
       openImageZoom(ex.image || "images/placeholder.svg", label);
     });
+
+    // 「参考動画を見る」：通常のリンク遷移。カード全体側のハンドラと二重発火しないよう伝播を止める。
+    const videoLink = li.querySelector(".menu-item-video-link");
+    if (videoLink) {
+      videoLink.addEventListener("click", (e) => e.stopPropagation());
+    }
+
+    // カード全体(イラスト以外)：動画があれば新しいタブで開く。無ければ何もしない。
+    if (hasVideo) {
+      li.addEventListener("click", () => {
+        window.open(ex.video, "_blank", "noopener,noreferrer");
+      });
+    }
+
     list.appendChild(li);
   });
 }
@@ -740,13 +765,21 @@ function renderExerciseList() {
   const container = document.getElementById("exercise-list-grid");
   container.innerHTML = "";
   EXERCISES.forEach((ex) => {
-    const card = document.createElement("button");
+    const hasVideo = !!ex.video;
+    const card = document.createElement("div");
     card.className = "exercise-card";
     card.innerHTML = `
-      <img src="${ex.image || "images/placeholder.svg"}" alt="">
-      <span>${ex.name}</span>
+      <button type="button" class="exercise-card-main" aria-label="${ex.name}の詳細">
+        <img src="${ex.image || "images/placeholder.svg"}" alt="">
+        <span>${ex.name}</span>
+      </button>
+      ${hasVideo ? `<a class="exercise-card-video" href="${escapeHtmlAttr(ex.video)}" target="_blank" rel="noopener noreferrer">▶ 参考動画を見る</a>` : ""}
     `;
-    card.addEventListener("click", () => renderExerciseDetail(ex.id));
+    card.querySelector(".exercise-card-main").addEventListener("click", () => renderExerciseDetail(ex.id));
+    const videoLink = card.querySelector(".exercise-card-video");
+    if (videoLink) {
+      videoLink.addEventListener("click", (e) => e.stopPropagation());
+    }
     container.appendChild(card);
   });
 }
