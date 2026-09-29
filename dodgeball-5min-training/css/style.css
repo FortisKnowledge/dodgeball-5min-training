@@ -55,8 +55,8 @@ p { margin: 0 0 8px; color: var(--text-soft); }
 }
 .app-logo { font-size: 15px; font-weight: 900; color: var(--navy-text); letter-spacing: .02em; }
 .icon-btn {
-  border: none; background: var(--card); width: 42px; height: 42px; border-radius: 12px;
-  font-size: 18px; display: flex; align-items: center; justify-content: center;
+  border: none; background: var(--card); color: var(--text); width: 44px; height: 44px; border-radius: 12px;
+  font-size: 18px; font-weight: 900; display: flex; align-items: center; justify-content: center;
   box-shadow: 0 1px 0 var(--line); cursor: pointer;
 }
 
@@ -129,7 +129,7 @@ p { margin: 0 0 8px; color: var(--text-soft); }
 /* ---------- 利用者選択 ---------- */
 .user-chip {
   display: block; width: 100%; text-align: left; padding: 16px; border-radius: 14px;
-  border: 2px solid var(--line); background: var(--card); font-size: 16px; font-weight: 700;
+  border: 2px solid var(--line); background: var(--card); color: var(--text); font-size: 16px; font-weight: 700;
   margin-bottom: 10px; cursor: pointer;
 }
 .user_chip.selected, .user-chip.selected { border-color: var(--navy); background: #EAF0FB; color: #17213D; }
@@ -137,9 +137,11 @@ p { margin: 0 0 8px; color: var(--text-soft); }
 /* ---------- メニュー確認 ---------- */
 #menu-preview-list { list-style: none; padding: 0; margin: 0 0 18px; }
 .menu-item {
-  display: flex; align-items: center; gap: 12px; background: var(--card);
-  border-radius: 14px; padding: 8px 12px; margin-bottom: 8px;
+  background: var(--card); border-radius: 14px; padding: 8px 12px; margin-bottom: 8px; cursor: default;
 }
+.menu-item.has-video { cursor: pointer; }
+.menu-item.has-video:active { background: var(--line); }
+.menu-item-row { display: flex; align-items: center; gap: 12px; }
 .menu-item-thumb-btn {
   position: relative; flex-shrink: 0; width: 46px; height: 46px; padding: 0; border: none;
   border-radius: 10px; cursor: pointer; background: none;
@@ -157,6 +159,12 @@ p { margin: 0 0 8px; color: var(--text-soft); }
 }
 .menu-item-name { font-weight: 700; font-size: 14px; }
 .menu-item-sec { font-size: 12px; color: var(--text-soft); }
+/* 背景(#EAF0FB)はテーマに関わらず常に薄い固定色なので、文字色も固定の濃紺にする */
+.menu-item-video-link {
+  display: block; margin-top: 8px; padding: 10px 12px; min-height: 20px;
+  background: #EAF0FB; color: #17213D; border-radius: 10px;
+  font-size: 13px; font-weight: 900; text-decoration: none; text-align: center;
+}
 .button-row { display: flex; gap: 10px; }
 .button-row .primary-btn, .button-row .secondary-btn { flex: 1; }
 
@@ -238,8 +246,8 @@ p { margin: 0 0 8px; color: var(--text-soft); }
   object-fit: contain; border-radius: 16px; background: #fff;
 }
 .image-zoom-close {
-  border: none; background: rgba(255,255,255,.14); color: #fff; font-weight: 900; font-size: 15px;
-  padding: 10px 20px; border-radius: 999px; cursor: pointer;
+  border: 2px solid #FFFFFF; background: #FFFFFF; color: #17213D; font-weight: 900; font-size: 15px;
+  min-height: 44px; padding: 10px 24px; border-radius: 999px; cursor: pointer;
 }
 
 /* ---------- 結果 ---------- */
@@ -259,10 +267,21 @@ p { margin: 0 0 8px; color: var(--text-soft); }
 /* ---------- 種目一覧 / 詳細 ---------- */
 .exercise-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .exercise-card {
-  border: none; background: var(--card); border-radius: 14px; padding: 8px; cursor: pointer; text-align: left;
+  background: var(--card); border-radius: 14px; overflow: hidden;
 }
-.exercise-card img { width: 100%; height: 90px; object-fit: cover; border-radius: 10px; margin-bottom: 6px; }
-.exercise-card span { font-size: 13px; font-weight: 700; display: block; color: var(--text);}
+.exercise-card-main {
+  display: block; width: 100%; border: none; background: transparent; padding: 8px 8px 6px;
+  cursor: pointer; text-align: left;
+}
+.exercise-card img { width: 100%; height: 90px; object-fit: cover; border-radius: 10px; margin-bottom: 6px; display: block; }
+.exercise-card span { font-size: 13px; font-weight: 700; display: block; color: var(--navy-text); }
+/* 背景(#EAF0FB)は常に固定の薄い色なので、文字色も固定の濃紺にする */
+.exercise-card-video {
+  display: block; width: 100%; text-align: center; padding: 7px 6px; min-height: 18px;
+  background: #EAF0FB; color: #17213D; font-size: 11px; font-weight: 900;
+  text-decoration: none; border-top: 1px solid var(--line);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box;
+}
 #detail-img { width: 100%; border-radius: 16px; margin-bottom: 14px; }
 .detail-tag {
   display: inline-block; background: #EAF0FB; color: var(--navy); font-weight: 700; font-size: 12px;
