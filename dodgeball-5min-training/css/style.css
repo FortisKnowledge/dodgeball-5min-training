@@ -278,7 +278,7 @@ p { margin: 0 0 8px; color: var(--text-soft); }
 /* 背景(#EAF0FB)は常に固定の薄い色なので、文字色も固定の濃紺にする */
 .exercise-card-video {
   display: block; width: 100%; text-align: center; padding: 7px 6px; min-height: 18px;
-  background: #EAF0FB; color: #17213D; font-size: 11px; font-weight: 900;
+  background: #9cb9ed; color: #17213D; font-size: 11px; font-weight: 900;
   text-decoration: none; border-top: 1px solid var(--line);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box;
 }
